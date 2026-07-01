@@ -1,0 +1,761 @@
+--------------------------------------------------------------------------------
+1. StreamDoumi란?
+--------------------------------------------------------------------------------
+
+StreamDoumi는 방송(스트리밍)을 시작하기 전에 필요한 작업을 한 번에 준비하는
+개인 제작 도구입니다.
+
+  - 앱, 브라우저, 바로가기를 등록하고 한 번에 실행
+  - 실행된 창을 지정한 모니터·위치·크기로 자동 배치
+  - CPU, 메모리, GPU, 네트워크 상태를 실시간으로 확인
+  - 계기판 모드로 방송 중에도 작은 창으로 시스템 상태 모니터링
+
+OBS, 방송용 브라우저(채팅, 대시보드), 음악 플레이어 등을 매번 수동으로
+켜고 배치하는 번거로움을 줄이기 위해 만들어졌습니다.
+
+
+--------------------------------------------------------------------------------
+2. 시스템 요구 사항
+--------------------------------------------------------------------------------
+
+  - Windows 10 또는 Windows 11 (64비트)
+  - 관리자 권한 실행 권장 (UAC 승인 필요)
+  - 별도 .NET 런타임 설치 불필요 (포터블 단일 exe 빌드 기준)
+  - 멀티 모니터 환경 지원
+
+
+--------------------------------------------------------------------------------
+3. 설치 및 실행
+--------------------------------------------------------------------------------
+
+[포터블 버전]
+  1. StreamDoumi_Portable_*.zip 파일의 압축을 해제합니다.
+  2. StreamDoumi.exe를 원하는 폴더에 둡니다.
+  3. StreamDoumi.exe를 더블클릭하여 실행합니다.
+  4. UAC(사용자 계정 컨트롤) 창이 뜨면 "예"를 눌러 관리자 권한을 허용합니다.
+
+[관리자 권한이 필요한 이유]
+  - OBS 등 관리자 권한으로 실행되는 프로그램의 창을 이동·배치하려면
+    StreamDoumi도 관리자 권한이 필요합니다.
+  - 화면 우측 상단의 배지로 관리자 모드 적용 여부를 확인할 수 있습니다.
+    - "관리자 권한 적용됨" : 정상
+    - "관리자모드 적용안됨" : 일부 기능 제한 가능
+
+[소스에서 빌드]
+  - .NET 9 SDK가 설치된 환경에서 StreamDoumi.csproj를 빌드합니다.
+  - 개발 실행 시 Run_StreamDoumi.bat을 사용하면 관리자 권한으로 자동 실행됩니다.
+
+
+--------------------------------------------------------------------------------
+4. 화면 구성
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  StreamDoumi          [언어] [관리자배지] [설정][계기판][저장][준비시작] │
+├──────────────┬──────────────────────────────┬───────────────────────────┤
+│  준비 목록   │  배치 / 설정 / 정보 탭       │  시스템 상태                │
+│              │                              │  (CPU, GPU, 메모리,       │
+│  - 항목 카드 │  창 배치 편집기              │   네트워크)                 │
+│  - 추가/편집 │  또는 설정 화면              │                            │
+│  - 제거      │                              │                           │
+└──────────────┴──────────────────────────────┴───────────────────────────┘
+
+[상단 버튼]
+  - 설정       : 설정 탭으로 바로 이동
+  - 계기판 모드: 컴팩트한 시스템 모니터 창으로 전환
+  - 프로필 저장: 현재 설정을 파일에 저장
+  - 방송 준비 시작: 등록된 모든 항목 실행
+
+[언어 선택]
+  - 한국어 / English / 日本語 지원
+  - 선택한 언어는 프로필에 저장되어 다음 실행 시에도 유지됩니다.
+
+
+--------------------------------------------------------------------------------
+5. 준비 목록 — 항목 등록
+--------------------------------------------------------------------------------
+
+"항목 추가" 버튼을 눌러 방송 준비에 필요한 프로그램을 등록합니다.
+
+[항목 종류]
+
+  (1) 앱
+      - 실행 파일(.exe)을 직접 지정합니다.
+      - 실행 인자(명령줄 옵션)를 입력할 수 있습니다.
+      - "관리자 권한으로 실행" 옵션 지원
+      - "실행 후 최소화" 옵션 지원
+
+  (2) 브라우저
+      - Microsoft Edge, Google Chrome, Brave, Firefox, 기본 브라우저 중 선택
+      - 열 URL과 브라우저 프로필(선택)을 지정
+      - 커스텀 브라우저(Opera GX 등)도 설정에서 추가 가능
+
+  (3) 바로가기
+      - .lnk 바로가기 파일을 지정하여 실행
+
+[항목 관리]
+  - 목록에서 항목을 클릭하면 선택됩니다.
+  - "속성 변경" : 선택한 항목 수정
+  - "항목 제거" : 선택한 항목 삭제
+
+
+--------------------------------------------------------------------------------
+6. 배치 탭 — 창 위치·크기 설정
+--------------------------------------------------------------------------------
+
+준비 목록에서 항목을 선택한 뒤, 배치 탭에서 실행 후 창이 놓일 위치를 설정합니다.
+
+[기능]
+  - 모니터 레이아웃 미리보기에서 박스를 드래그하여 위치 조정
+  - 박스 모서리·변을 끌어 크기 조정
+  - "화면에서 지정" : 실제 모니터 화면에서 영역을 직접 드래그하여 지정
+  - "위치 초기화" : 선택 항목의 배치 정보 초기화
+  - "창 이동 스냅기능 활성화" : 창 이동 시 가장자리·모서리에 자동 정렬
+
+[하단 정보 표시]
+  - 위치 (X, Y), 크기 (W, H), 대상 모니터 번호
+
+[참고]
+  - "실행 후 최소화"가 켜진 항목은 창 배치를 적용하지 않습니다.
+  - 추가 모니터가 꺼져 있을 때 실행하면 위치가 어긋날 수 있으며,
+    실행 전 경고 메시지가 표시됩니다.
+
+
+--------------------------------------------------------------------------------
+7. 설정 탭
+--------------------------------------------------------------------------------
+
+[실행 방식]
+  - 순차 실행 : 등록된 항목을 하나씩 순서대로 실행 (기본값)
+  - 동시 실행 : 모든 항목을 동시에 실행
+  - 순차 실행 시 간격 : 항목 사이 대기 시간(초) 설정 (기본 3초)
+
+[인터넷 최고속도]
+  - 다운로드/업로드 최고속도를 MB/s 단위로 입력 (기본 100 MB/s)
+  - 시스템 상태 패널과 계기판 모드의 네트워크 게이지 기준값으로 사용됩니다.
+  - 실제 회선 속도에 맞게 설정하면 더 정확한 부하 표시가 가능합니다.
+
+[기본 브라우저 경로]
+  - Edge, Chrome, Brave, Firefox의 실행 파일 경로
+  - 자동 감지되지만, 설치 위치가 다르면 직접 수정 가능
+
+[커스텀 브라우저 추가]
+  - 기본 목록에 없는 브라우저(예: Opera GX)를 표시 이름과 경로로 등록
+  - 등록 후 브라우저 항목 추가 시 선택 가능
+
+
+--------------------------------------------------------------------------------
+8. 방송 준비 시작
+--------------------------------------------------------------------------------
+
+  1. 준비 목록에 실행할 항목을 등록합니다.
+  2. 필요하면 배치 탭에서 창 위치를 설정합니다.
+  3. 설정 탭에서 실행 방식을 확인합니다.
+  4. "방송 준비 시작" 버튼을 클릭합니다.
+
+[동작]
+  - 설정된 방식(순차/동시)에 따라 등록된 항목을 실행합니다.
+  - 앱·바로가기는 지정된 위치와 크기로 창을 배치합니다.
+  - 브라우저는 지정 URL을 열고 창을 배치합니다.
+  - 실행 실패 시 오류 메시지가 표시됩니다.
+
+[자동 저장]
+  - 방송 준비 시작 시 현재 설정이 자동으로 저장됩니다.
+
+
+--------------------------------------------------------------------------------
+9. 시스템 상태 패널
+--------------------------------------------------------------------------------
+
+우측 패널에서 PC 상태를 0.5초 간격으로 실시간 확인합니다.
+
+  - CPU 사용률 (프로세서 이름 표시)
+  - 메모리 사용률
+  - GPU 사용률 (최대 2개 GPU 표시)
+  - 네트워크 다운로드/업로드 속도 및 부하 상태
+    - 90% 이상: 빨간색 (높음)
+    - 70% 이상: 주의
+    - 그 외: 정상
+
+네트워크 부하는 설정 탭의 "인터넷 최고속도" 값을 기준으로 계산됩니다.
+
+
+--------------------------------------------------------------------------------
+10. 계기판 모드
+--------------------------------------------------------------------------------
+
+"계기판 모드" 버튼을 누르면 작은 컴팩트 창으로 전환됩니다.
+
+  - CPU, 메모리, 네트워크, GPU 수치를 한눈에 표시
+  - 항상 위에 표시 (Topmost)
+  - 방송 화면 위에 겹쳐 놓고 모니터링하기 좋음
+  - "전체" 버튼을 누르면 일반 화면으로 복귀
+
+
+--------------------------------------------------------------------------------
+11. 프로필 저장 (StreamDoumiSave.dat)
+--------------------------------------------------------------------------------
+
+모든 설정과 준비 목록은 exe와 같은 폴더의 StreamDoumiSave.dat 파일에 저장됩니다.
+
+  - 설정 변경 시 자동 저장됩니다.
+  - "프로필 저장" 버튼으로 수동 저장 및 확인이 가능합니다.
+  - exe를 다른 폴더로 옮기면 해당 폴더에 새 저장 파일이 생성됩니다.
+  - 기존 dat 파일을 exe 옆에 두면 설정이 이어집니다.
+
+[백업 권장]
+  - 설정을 옮기거나 재설치할 때 StreamDoumiSave.dat를 함께 복사하세요.
+
+
+--------------------------------------------------------------------------------
+12. 문제 해결
+--------------------------------------------------------------------------------
+
+[프로그램이 바로 종료됨]
+  - 관리자 권한으로 실행했는지 확인하세요.
+  - Windows 이벤트 로그에서 .NET Runtime 오류를 확인하세요.
+
+[OBS 창이 이동되지 않음]
+  - StreamDoumi를 관리자 권한으로 실행하세요.
+  - OBS도 관리자 권한으로 실행 중이라면 StreamDoumi도 동일 권한이 필요합니다.
+
+[브라우저가 실행되지 않음]
+  - 설정 > 기본 브라우저 경로에서 실행 파일 경로를 확인하세요.
+  - 브라우저가 설치되어 있는지 확인하세요.
+
+[창 위치가 어긋남]
+  - 모니터 구성(해상도, 배치)이 변경되었을 수 있습니다.
+  - 배치 탭에서 위치를 다시 설정하세요.
+  - 오프라인 모니터에 배치된 항목은 경고 후 재설정이 필요합니다.
+
+[백신 프로그램 경고]
+  - 관리자 권한 실행, 외부 프로그램 실행, 창 이동 기능을 사용하므로
+    일부 백신에서 오탐될 수 있습니다.
+  - GitHub에 공개된 소스코드를 확인한 뒤 사용하세요.
+
+
+--------------------------------------------------------------------------------
+13. 주의 사항
+--------------------------------------------------------------------------------
+
+  - 이 프로그램은 개인 제작 도구입니다.
+  - 관리자 권한 실행, 외부 앱 실행, 창 위치 이동 기능을 사용합니다.
+  - 일부 백신·보안 프로그램에서 오탐으로 감지될 수 있습니다.
+  - 불안한 경우 GitHub 소스코드를 직접 검토한 뒤 사용해 주세요.
+
+
+
+================================================================================
+  StreamDoumi User Manual (English)
+================================================================================
+
+Version: 1.0
+Supported OS: Windows 10 / 11 (64-bit)
+Author: Chomiles
+GitHub: https://github.com/chomiles/
+
+
+--------------------------------------------------------------------------------
+1. What is StreamDoumi?
+--------------------------------------------------------------------------------
+
+StreamDoumi is a personal tool that prepares everything you need before going
+live for a stream.
+
+  - Register apps, browsers, and shortcuts, then launch them all at once
+  - Automatically place launched windows on a specific monitor, position, and size
+  - Monitor CPU, memory, GPU, and network status in real time
+  - Switch to Gauge mode for a compact overlay while streaming
+
+It was built to reduce the hassle of manually opening and arranging OBS,
+chat/dashboard browsers, music players, and other tools every time you stream.
+
+
+--------------------------------------------------------------------------------
+2. System Requirements
+--------------------------------------------------------------------------------
+
+  - Windows 10 or Windows 11 (64-bit)
+  - Administrator privileges recommended (UAC approval required)
+  - No separate .NET runtime required (portable single-exe build)
+  - Multi-monitor support
+
+
+--------------------------------------------------------------------------------
+3. Installation and Launch
+--------------------------------------------------------------------------------
+
+[Portable version]
+  1. Extract the StreamDoumi_Portable_*.zip archive.
+  2. Place StreamDoumi.exe in any folder you prefer.
+  3. Double-click StreamDoumi.exe to launch.
+  4. When the UAC prompt appears, click "Yes" to grant administrator rights.
+
+[Why administrator rights are needed]
+  - To move and place windows of programs running as administrator (such as OBS),
+    StreamDoumi must also run with administrator privileges.
+  - Check the badge in the top-right corner:
+    - "Administrator mode active"     : OK
+    - "Administrator mode inactive"   : Some features may be limited
+
+[Building from source]
+  - Build StreamDoumi.csproj with .NET 9 SDK installed.
+  - For development, Run_StreamDoumi.bat launches the app with admin rights.
+
+
+--------------------------------------------------------------------------------
+4. Screen Layout
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  StreamDoumi       [Language] [Admin badge] [Settings][Gauge][Save][Start]│
+├──────────────┬──────────────────────────────┬───────────────────────────┤
+│  Ready list  │  Layout / Settings / Info    │  System Status            │
+│              │                              │  (CPU, GPU, memory,       │
+│  - Item cards│  Window layout editor        │   network)                │
+│  - Add/Edit  │  or settings screen          │                           │
+│  - Remove    │                              │                           │
+└──────────────┴──────────────────────────────┴───────────────────────────┘
+
+[Top buttons]
+  - Settings    : Jump to the Settings tab
+  - Gauge mode  : Switch to a compact system monitor window
+  - Save profile: Save current settings to file
+  - Start setup : Launch all registered items
+
+[Language]
+  - Korean / English / Japanese supported
+  - Selected language is saved in the profile and restored on next launch
+
+
+--------------------------------------------------------------------------------
+5. Ready List — Registering Items
+--------------------------------------------------------------------------------
+
+Click "Add item" to register programs needed for your stream setup.
+
+[Item types]
+
+  (1) App
+      - Specify an executable (.exe) directly
+      - Optional command-line arguments
+      - "Run as administrator" option
+      - "Minimize after launch" option
+
+  (2) Browser
+      - Choose Microsoft Edge, Google Chrome, Brave, Firefox, or default browser
+      - Set URL and optional browser profile
+      - Custom browsers (e.g. Opera GX) can be added in Settings
+
+  (3) Shortcut
+      - Launch a .lnk shortcut file
+
+[Managing items]
+  - Click an item in the list to select it
+  - "Edit item"   : Modify the selected item
+  - "Remove item" : Delete the selected item
+
+
+--------------------------------------------------------------------------------
+6. Layout Tab — Window Position and Size
+--------------------------------------------------------------------------------
+
+Select an item in the ready list, then use the Layout tab to set where its
+window should appear after launch.
+
+[Features]
+  - Drag the box on the monitor preview to adjust position
+  - Drag edges and corners to resize
+  - "Pick on screen" : Drag a region directly on your real monitor
+  - "Reset position" : Clear placement for the selected item
+  - "Enable window move snap" : Snap windows to edges and corners when moving
+
+[Info bar]
+  - Position (X, Y), size (W, H), target monitor number
+
+[Notes]
+  - Items with "Minimize after launch" enabled skip window placement.
+  - If a secondary monitor is offline, windows may be placed incorrectly.
+    A warning is shown before launch.
+
+
+--------------------------------------------------------------------------------
+7. Settings Tab
+--------------------------------------------------------------------------------
+
+[Launch mode]
+  - Sequential    : Launch items one by one in order (default)
+  - Simultaneous  : Launch all items at the same time
+  - Launch delay  : Wait time between items in sequential mode (default 3 sec)
+
+[Internet max speed]
+  - Set max download/upload speed in MB/s (default 100 MB/s each)
+  - Used as the reference for network gauges in System Status and Gauge mode
+  - Match your actual connection for more accurate load indicators
+
+[Browser paths]
+  - Executable paths for Edge, Chrome, Brave, and Firefox
+  - Auto-detected; edit manually if your install location differs
+
+[Custom browser]
+  - Register browsers not in the default list (e.g. Opera GX) by name and path
+  - Available in the browser picker after registration
+
+
+--------------------------------------------------------------------------------
+8. Start Setup
+--------------------------------------------------------------------------------
+
+  1. Register items in the ready list.
+  2. Optionally set window placement in the Layout tab.
+  3. Confirm launch mode in the Settings tab.
+  4. Click "Start setup".
+
+[Behavior]
+  - Items launch according to your sequential or simultaneous setting.
+  - Apps and shortcuts are placed at the configured position and size.
+  - Browsers open the specified URL and are placed accordingly.
+  - A warning dialog appears if launch fails.
+
+[Auto-save]
+  - Current settings are saved automatically when setup starts.
+
+
+--------------------------------------------------------------------------------
+9. System Status Panel
+--------------------------------------------------------------------------------
+
+The right panel shows real-time PC status, updated every 0.5 seconds.
+
+  - CPU usage (processor name shown)
+  - Memory usage
+  - GPU usage (up to 2 GPUs)
+  - Network download/upload speed and load status
+    - 90% or above : Red (high)
+    - 70% or above : Caution
+    - Otherwise    : Good
+
+Network load is calculated against the max speed set in Settings.
+
+
+--------------------------------------------------------------------------------
+10. Gauge Mode
+--------------------------------------------------------------------------------
+
+Click "Gauge mode" to switch to a small compact window.
+
+  - Shows CPU, memory, network, and GPU values at a glance
+  - Always on top (Topmost)
+  - Ideal for monitoring over your stream preview
+  - Click "Full" to return to the normal layout
+
+
+--------------------------------------------------------------------------------
+11. Profile Save (StreamDoumiSave.dat)
+--------------------------------------------------------------------------------
+
+All settings and ready-list items are saved to StreamDoumiSave.dat in the same
+folder as the executable.
+
+  - Settings are saved automatically on change.
+  - "Save profile" lets you save manually and verify the result.
+  - Moving the exe to a new folder creates a new save file there.
+  - Copy an existing dat file next to the exe to restore your settings.
+
+[Backup tip]
+  - Copy StreamDoumiSave.dat when migrating or reinstalling.
+
+
+--------------------------------------------------------------------------------
+12. Troubleshooting
+--------------------------------------------------------------------------------
+
+[App closes immediately]
+  - Make sure you launched with administrator rights.
+  - Check Windows Event Log for .NET Runtime errors.
+
+[OBS window does not move]
+  - Run StreamDoumi as administrator.
+  - If OBS runs as admin, StreamDoumi needs the same privilege level.
+
+[Browser does not launch]
+  - Check browser paths under Settings > Browser paths.
+  - Verify the browser is installed.
+
+[Window position is wrong]
+  - Your monitor layout or resolution may have changed.
+  - Reconfigure placement in the Layout tab.
+  - Items assigned to offline monitors need to be reassigned.
+
+[Antivirus warning]
+  - This app uses admin launch, external process launch, and window movement.
+    Some antivirus tools may flag it as a false positive.
+  - Review the open-source code on GitHub before use if unsure.
+
+
+--------------------------------------------------------------------------------
+13. Notice
+--------------------------------------------------------------------------------
+
+  - This is a personal, individually developed tool.
+  - It uses administrator launch, external app launch, and window positioning.
+  - Some antivirus or security software may detect it as a false positive.
+  - If you are unsure, review the source code published on GitHub before using.
+
+
+
+================================================================================
+  StreamDoumi 使用説明書 (日本語)
+================================================================================
+
+バージョン: 1.0
+対応 OS: Windows 10 / 11 (64ビット)
+開発者: ジョマイルズ (Chomiles)
+GitHub: https://github.com/chomiles/
+
+
+--------------------------------------------------------------------------------
+1. StreamDoumi とは
+--------------------------------------------------------------------------------
+
+StreamDoumiは、配信開始前に必要な準備をまとめて行う個人制作ツールです。
+
+  - アプリ、ブラウザー、ショートカットを登録して一括実行
+  - 起動したウィンドウを指定モニター・位置・サイズに自動配置
+  - CPU、メモリ、GPU、ネットワーク状態をリアルタイム表示
+  - メーターモードで配信中も小さなウィンドウでシステム監視
+
+OBS、配信用ブラウザー（チャット、ダッシュボード）、音楽プレイヤーなどを
+毎回手動で起動・配置する手間を減らすために作られました。
+
+
+--------------------------------------------------------------------------------
+2. 動作環境
+--------------------------------------------------------------------------------
+
+  - Windows 10 または Windows 11 (64ビット)
+  - 管理者権限での実行を推奨 (UAC承認が必要)
+  - .NETランタイムの別途インストール不要 (ポータブル単一exeビルド)
+  - マルチモニター対応
+
+
+--------------------------------------------------------------------------------
+3. インストールと起動
+--------------------------------------------------------------------------------
+
+[ポータブル版]
+  1. StreamDoumi_Portable_*.zip を解凍します。
+  2. StreamDoumi.exe を任意のフォルダーに置きます。
+  3. StreamDoumi.exe をダブルクリックして起動します。
+  4. UAC (ユーザーアカウント制御) が表示されたら「はい」で管理者権限を許可します。
+
+[管理者権限が必要な理由]
+  - OBSなど管理者権限で動作するプログラムのウィンドウを移動・配置するには、
+    StreamDoumiも管理者権限が必要です。
+  - 画面右上のバッジで確認できます。
+    - 「管理者権限が適用されています」 : 正常
+    - 「管理者モード未適用」           : 一部機能が制限される場合あり
+
+[ソースからビルド]
+  - .NET 9 SDK がインストールされた環境で StreamDoumi.csproj をビルドします。
+  - 開発時は Run_StreamDoumi.bat で管理者権限付き起動が可能です。
+
+
+--------------------------------------------------------------------------------
+4. 画面構成
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  StreamDoumi    [言語] [管理者バッジ] [設定][メーター][保存][準備開始]  │
+├──────────────┬──────────────────────────────┬───────────────────────────┤
+│  準備リスト  │  配置 / 設定 / 情報タブ      │  システム状態             │
+│              │                              │  (CPU, GPU, メモリ,       │
+│  - 項目カード│  ウィンドウ配置エディター    │   ネットワーク)           │
+│  - 追加/編集 │  または設定画面              │                           │
+│  - 削除      │                              │                           │
+└──────────────┴──────────────────────────────┴───────────────────────────┘
+
+[上部ボタン]
+  - 設定         : 設定タブへ移動
+  - メーターモード: コンパクトなシステムモニターに切り替え
+  - プロファイル保存: 現在の設定をファイルに保存
+  - 配信準備開始 : 登録した全項目を実行
+
+[言語選択]
+  - 韓国語 / English / 日本語 に対応
+  - 選択した言語はプロファイルに保存され、次回起動時も維持されます
+
+
+--------------------------------------------------------------------------------
+5. 準備リスト — 項目の登録
+--------------------------------------------------------------------------------
+
+「項目追加」ボタンで配信準備に必要なプログラムを登録します。
+
+[項目の種類]
+
+  (1) アプリ
+      - 実行ファイル (.exe) を直接指定
+      - 実行引数 (コマンドラインオプション) を入力可能
+      - 「管理者権限で実行」オプション対応
+      - 「実行後に最小化」オプション対応
+
+  (2) ブラウザー
+      - Microsoft Edge, Google Chrome, Brave, Firefox, 既定ブラウザーから選択
+      - 開くURLとブラウザープロファイル (任意) を指定
+      - カスタムブラウザー (Opera GX など) も設定から追加可能
+
+  (3) ショートカット
+      - .lnk ショートカットファイルを指定して実行
+
+[項目の管理]
+  - リストの項目をクリックして選択
+  - 「プロパティ変更」: 選択項目を編集
+  - 「項目削除」     : 選択項目を削除
+
+
+--------------------------------------------------------------------------------
+6. 配置タブ — ウィンドウの位置・サイズ
+--------------------------------------------------------------------------------
+
+準備リストで項目を選択後、配置タブで起動後のウィンドウ位置を設定します。
+
+[機能]
+  - モニタープレビュー上のボックスをドラッグして位置調整
+  - ボックスの端・角をドラッグしてサイズ変更
+  - 「画面から指定」: 実際のモニター画面で範囲をドラッグ指定
+  - 「位置初期化」  : 選択項目の配置情報をリセット
+  - 「ウィンドウ移動スナップを有効化」: 移動時に端・角へ自動整列
+
+[下部情報]
+  - 位置 (X, Y)、サイズ (W, H)、対象モニター番号
+
+[注意]
+  - 「実行後に最小化」が有効な項目はウィンドウ配置を適用しません。
+  - サブモニターがオフラインの場合、位置がずれることがあり、
+    実行前に警告が表示されます。
+
+
+--------------------------------------------------------------------------------
+7. 設定タブ
+--------------------------------------------------------------------------------
+
+[実行方式]
+  - 順次実行 : 登録項目を1つずつ順番に実行 (デフォルト)
+  - 同時実行 : 全項目を同時に実行
+  - 実行間隔 : 順次実行時の待機時間 (秒) (デフォルト 3秒)
+
+[インターネット最高速度]
+  - ダウンロード/アップロード最高速度を MB/s 単位で入力 (デフォルト 100 MB/s)
+  - システム状態パネルとメーターモードのネットワークゲージ基準値
+  - 実際の回線速度に合わせるとより正確な負荷表示が可能
+
+[ブラウザー経路]
+  - Edge, Chrome, Brave, Firefox の実行ファイルパス
+  - 自動検出されますが、インストール場所が異なる場合は手動修正可能
+
+[カスタムブラウザー追加]
+  - 基本一覧にないブラウザー (Opera GX など) を表示名とパスで登録
+  - 登録後、ブラウザー項目追加時に選択可能
+
+
+--------------------------------------------------------------------------------
+8. 配信準備開始
+--------------------------------------------------------------------------------
+
+  1. 準備リストに実行する項目を登録します。
+  2. 必要に応じて配置タブでウィンドウ位置を設定します。
+  3. 設定タブで実行方式を確認します。
+  4. 「配信準備開始」ボタンをクリックします。
+
+[動作]
+  - 設定 (順次/同時) に従って登録項目を実行します。
+  - アプリ・ショートカットは指定位置・サイズにウィンドウを配置します。
+  - ブラウザーは指定URLを開いてウィンドウを配置します。
+  - 実行失敗時はエラーメッセージが表示されます。
+
+[自動保存]
+  - 配信準備開始時に現在の設定が自動保存されます。
+
+
+--------------------------------------------------------------------------------
+9. システム状態パネル
+--------------------------------------------------------------------------------
+
+右側パネルでPC状態を0.5秒間隔でリアルタイム表示します。
+
+  - CPU使用率 (プロセッサー名表示)
+  - メモリ使用率
+  - GPU使用率 (最大2基表示)
+  - ネットワーク ダウンロード/アップロード速度と負荷状態
+    - 90%以上 : 赤色 (高い)
+    - 70%以上 : 注意
+    - それ以外 : 良好
+
+ネットワーク負荷は設定タブの「インターネット最高速度」を基準に計算されます。
+
+
+--------------------------------------------------------------------------------
+10. メーターモード
+--------------------------------------------------------------------------------
+
+「メーターモード」ボタンで小さなコンパクトウィンドウに切り替わります。
+
+  - CPU、メモリ、ネットワーク、GPU数値を一覧表示
+  - 常に手前に表示 (Topmost)
+  - 配信画面の上に重ねて監視するのに便利
+  - 「全体」ボタンで通常画面に戻ります
+
+
+--------------------------------------------------------------------------------
+11. プロファイル保存 (StreamDoumiSave.dat)
+--------------------------------------------------------------------------------
+
+すべての設定と準備リストは、exeと同じフォルダーの
+StreamDoumiSave.dat に保存されます。
+
+  - 設定変更時に自動保存されます。
+  - 「プロファイル保存」で手動保存と確認が可能です。
+  - exeを別フォルダーに移すと、そのフォルダーに新しい保存ファイルが作られます。
+  - 既存の dat ファイルを exe の横に置けば設定を引き継げます。
+
+[バックアップ推奨]
+  - 設定を移行・再インストールする際は StreamDoumiSave.dat もコピーしてください。
+
+
+--------------------------------------------------------------------------------
+12. トラブルシューティング
+--------------------------------------------------------------------------------
+
+[プログラムがすぐ終了する]
+  - 管理者権限で実行したか確認してください。
+  - Windowsイベントログで .NET Runtime エラーを確認してください。
+
+[OBSのウィンドウが移動しない]
+  - StreamDoumiを管理者権限で実行してください。
+  - OBSも管理者権限で動作している場合、StreamDoumiも同じ権限が必要です。
+
+[ブラウザーが起動しない]
+  - 設定 > ブラウザー経路で実行ファイルパスを確認してください。
+  - ブラウザーがインストールされているか確認してください。
+
+[ウィンドウ位置がずれる]
+  - モニター構成 (解像度、配置) が変わった可能性があります。
+  - 配置タブで位置を再設定してください。
+  - オフラインモニターに割り当てた項目は再設定が必要です。
+
+[ウイルス対策ソフトの警告]
+  - 管理者権限実行、外部プログラム起動、ウィンドウ移動機能を使用するため、
+    一部のウイルス対策で誤検知される場合があります。
+  - 不安な場合は GitHub で公開されているソースコードを確認してからご利用ください。
+
+
+--------------------------------------------------------------------------------
+13. 注意事項
+--------------------------------------------------------------------------------
+
+  - このプログラムは個人制作ツールです。
+  - 管理者権限実行、外部アプリ起動、ウィンドウ位置移動機能を使用します。
+  - 一部のウイルス対策・セキュリティソフトで誤検知される場合があります。
+  - 不安な場合は GitHub のソースコードを確認してからご使用ください。
+
